@@ -42,15 +42,15 @@ stages:
     - models/power_transformer.joblib
     - models/lgbm_regressor.joblib
 
-  # evaluation:
-  #   cmd: python src/models/evaluation.py
-  #   deps:
-  #   - src/models/evaluation.py
-  #   - data/processed/train_trans.csv
-  #   - data/processed/test_trans.csv
-  #   - models/model.joblib
-  #   outs:
-  #   - run_information.json
+  evaluation:
+    cmd: python src/models/evaluation.py
+    deps:
+    - src/models/evaluation.py
+    - data/processed/train_trans.csv
+    - data/processed/test_trans.csv
+    - models/model.joblib
+    outs:
+    - run_information.json
 
   # register_model:
   #   cmd: python src/models/register_model.py
