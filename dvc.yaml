@@ -6,3 +6,54 @@ stages:
     - src/data/data_cleaning.py
     outs:
     - data/cleaned/swiggy_cleaned.csv
+
+  data_preparation:
+    cmd: python src/data/data_preparation.py
+    params:
+    - Data_Preparation.test_size
+    - Data_Preparation.random_state
+    deps:
+    - data/cleaned/swiggy_cleaned.csv
+    - src/data/data_preparation.py
+    outs:
+    - data/interim/train.csv
+    - data/interim/test.csv
+
+  data_preprocessing:
+    cmd: python src/features/data_preprocessing.py
+    deps:
+    - data/interim/train.csv
+    - data/interim/test.csv
+    - src/features/data_preprocessing.py
+    outs:
+    - data/processed/train_trans.csv
+    - data/processed/test_trans.csv
+    - models/preprocessor.joblib
+
+  train:
+    cmd: python src/models/train.py
+    deps:
+    - src/models/train.py
+    - data/processed/train_trans.csv
+    params:
+    - Train.LightGBM
+    outs:
+    - models/model.joblib
+    - models/power_transformer.joblib
+    - models/lgbm_regressor.joblib
+
+  # evaluation:
+  #   cmd: python src/models/evaluation.py
+  #   deps:
+  #   - src/models/evaluation.py
+  #   - data/processed/train_trans.csv
+  #   - data/processed/test_trans.csv
+  #   - models/model.joblib
+  #   outs:
+  #   - run_information.json
+
+  # register_model:
+  #   cmd: python src/models/register_model.py
+  #   deps:
+  #   - src/models/register_model.py
+  #   - run_information.json

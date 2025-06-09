@@ -16,3 +16,89 @@ stages:
       hash: md5
       md5: 4918716e52fc57babdcd400dfb3c3f29
       size: 4508527
+  data_preparation:
+    cmd: python src/data/data_preparation.py
+    deps:
+    - path: data/cleaned/swiggy_cleaned.csv
+      hash: md5
+      md5: 4918716e52fc57babdcd400dfb3c3f29
+      size: 4508527
+    - path: src/data/data_preparation.py
+      hash: md5
+      md5: b97a07258b547e03768bab50f2f670ea
+      size: 3007
+    params:
+      params.yaml:
+        Data_Preparation.random_state: 42
+        Data_Preparation.test_size: 0.25
+    outs:
+    - path: data/interim/test.csv
+      hash: md5
+      md5: e17e82f6e38f0a4a384bfe008be42ba2
+      size: 1126527
+    - path: data/interim/train.csv
+      hash: md5
+      md5: c947bf174a89cccd1c8ec92dfab7ea14
+      size: 3379042
+  data_preprocessing:
+    cmd: python src/features/data_preprocessing.py
+    deps:
+    - path: data/interim/test.csv
+      hash: md5
+      md5: e17e82f6e38f0a4a384bfe008be42ba2
+      size: 1126527
+    - path: data/interim/train.csv
+      hash: md5
+      md5: c947bf174a89cccd1c8ec92dfab7ea14
+      size: 3379042
+    - path: src/features/data_preprocessing.py
+      hash: md5
+      md5: 8d229dcd0fdbfa8ededebe43835f4557
+      size: 6949
+    outs:
+    - path: data/processed/test_trans.csv
+      hash: md5
+      md5: 6a7f129b63c05b9922c237e6ae702b26
+      size: 1358276
+    - path: data/processed/train_trans.csv
+      hash: md5
+      md5: 607d3fb5ca7957bc02695329fe4322bd
+      size: 4060457
+    - path: models/preprocessor.joblib
+      hash: md5
+      md5: 23de2e1804fcbdb6ba9e7c8582da7d9c
+      size: 7243
+  train:
+    cmd: python src/models/train.py
+    deps:
+    - path: data/processed/train_trans.csv
+      hash: md5
+      md5: 607d3fb5ca7957bc02695329fe4322bd
+      size: 4060457
+    - path: src/models/train.py
+      hash: md5
+      md5: ff55566993acf9e997fcbcb681d0bf8a
+      size: 4154
+    params:
+      params.yaml:
+        Train.LightGBM:
+          n_estimators: 102
+          max_depth: 27
+          learning_rate: 0.31372375074403747
+          subsample: 0.550242839101596
+          min_child_weight: 6
+          min_split_gain: 0.08875255169057228
+          reg_lambda: 41.83832552457232
+    outs:
+    - path: models/lgbm_regressor.joblib
+      hash: md5
+      md5: 0eae936de7114f1aa9a31fa3bebd54db
+      size: 85376
+    - path: models/model.joblib
+      hash: md5
+      md5: 220da5cab10d22076703d74f061e1e7f
+      size: 89288
+    - path: models/power_transformer.joblib
+      hash: md5
+      md5: 3395c4d0078407e02b0450ffd3948c52
+      size: 837
