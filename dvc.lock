@@ -77,8 +77,8 @@ stages:
       size: 4060457
     - path: src/models/train.py
       hash: md5
-      md5: ff55566993acf9e997fcbcb681d0bf8a
-      size: 4154
+      md5: bfdb9c9f336221797ede8d55a4526d52
+      size: 4155
     params:
       params.yaml:
         Train.LightGBM:
@@ -119,10 +119,21 @@ stages:
       size: 89288
     - path: src/models/evaluation.py
       hash: md5
-      md5: 551a57e1077a283bd4abcf523ac62425
+      md5: ce18051fe2ca4ecacb0492c640768341
       size: 6025
     outs:
     - path: run_information.json
       hash: md5
-      md5: a670304cd03caf461f551d91cfa07c38
+      md5: 67763b62a8fc3b192cefa5b4bb705184
       size: 220
+  register_model:
+    cmd: python src/models/register_model.py
+    deps:
+    - path: run_information.json
+      hash: md5
+      md5: 67763b62a8fc3b192cefa5b4bb705184
+      size: 220
+    - path: src/models/register_model.py
+      hash: md5
+      md5: 32ed66e5429b059485fc6a66529f0db5
+      size: 2130
