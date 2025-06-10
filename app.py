@@ -103,7 +103,7 @@ model_pipe = Pipeline(steps=[
     ("regressor",model)
 ])
 
-# create the app
+# create the app object
 app = FastAPI()
 
 # create the home endpoint
@@ -111,7 +111,7 @@ app = FastAPI()
 def home():
     return "Welcome to the Swiggy Food Delivery Time Prediction App"
 
-# create the predict endpoint
+# create the predict endpoint 
 @app.post(path="/predict")
 def do_predictions(data: Data):
     pred_data = pd.DataFrame({
