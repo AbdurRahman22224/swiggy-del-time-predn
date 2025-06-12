@@ -96,7 +96,7 @@ jobs:
             aws deploy create-deployment \
             --application-name deliverytimeprediction \
             --deployment-config-name CodeDeployDefault.OneAtATime \
-            --deployment-group-name deliverytimepredictiondeploymentgp \
+            --deployment-group-name deliverytimepredictiondgp \
             --s3-location bucket=swiggydeliverytimepredictiondeployment,key=deployment.zip,bundleType=zip \
             --file-exists-behavior OVERWRITE \
             --region eu-north-1
