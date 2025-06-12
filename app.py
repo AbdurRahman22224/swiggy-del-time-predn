@@ -80,7 +80,7 @@ client = MlflowClient()
 # load the model info to get the model name
 model_name = load_model_information("run_information.json")['model_name']
 
-# set the stage for the model
+# set the stage for the model to load
 stage = "Production"
 
 # get the latest model version
