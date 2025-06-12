@@ -73,33 +73,33 @@ jobs:
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
 
       
-      # # Zip the required files
-      # - name: Zip files for deployment
-      #   if: success()
-      #   run: |
-      #       zip -r deployment.zip appspec.yml deploy/scripts/install_dependencies.sh deploy/scripts/start_docker.sh
+      # Zip the required files
+      - name: Zip files for deployment
+        if: success()
+        run: |
+            zip -r deployment.zip appspec.yml deploy/scripts/install_dependencies.sh deploy/scripts/start_docker.sh
 
 
-      # # Upload the ZIP file to S3
-      # - name: Upload ZIP to S3
-      #   if: success()
-      #   run: |
-      #       aws s3 cp deployment.zip s3://deliverytimepredictiondeployment/deployment.zip
+      # Upload the ZIP file to S3
+      - name: Upload ZIP to S3
+        if: success()
+        run: |
+            aws s3 cp deployment.zip s3://swiggydeliverytimepredictiondeployment/deployment.zip
 
             
-      # # Deploy to AWS CodeDeploy using the uploaded ZIP file
-      # - name: Deploy to AWS CodeDeploy
-      #   if: success()
-      #   run: |
-      #       aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #       aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #       aws deploy create-deployment \
-      #       --application-name deliverytimeprediction \
-      #       --deployment-config-name CodeDeployDefault.OneAtATime \
-      #       --deployment-group-name deliverytimepredictiondeploymentgroup \
-      #       --s3-location bucket=deliverytimepredictiondeployment,key=deployment.zip,bundleType=zip \
-      #       --file-exists-behavior OVERWRITE \
-      #       --region ap-south-1
+      # Deploy to AWS CodeDeploy using the uploaded ZIP file
+      - name: Deploy to AWS CodeDeploy
+        if: success()
+        run: |
+            aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws deploy create-deployment \
+            --application-name deliverytimeprediction \
+            --deployment-config-name CodeDeployDefault.OneAtATime \
+            --deployment-group-name deliverytimepredictiondeploymentgp \
+            --s3-location bucket=swiggydeliverytimepredictiondeployment,key=deployment.zip,bundleType=zip \
+            --file-exists-behavior OVERWRITE \
+            --region eu-north-1
 
 
   
