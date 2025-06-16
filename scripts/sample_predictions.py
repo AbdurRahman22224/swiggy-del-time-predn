@@ -7,8 +7,8 @@ root_path = Path(__file__).parent.parent
 data_path = root_path / "data" / "raw" / "swiggy.csv"
 
 # prediction endpoint
-predict_url = "http://56.228.34.226/predict"  # AWS endpoint
-# "http://127.0.0.1:8000//predict" local endpoint
+# predict_url = "http://56.228.34.226/predict"  # AWS endpoint
+predict_url = "http://127.0.0.1:8000//predict" # local endpoint
 
 
 # sample row for testing the endpoint
